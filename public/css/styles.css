@@ -1,0 +1,201 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #444;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin: 10px 0;
+    background: #f1f1f1;
+    padding: 10px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button {
+    text-decoration: none;
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.button.danger {
+    background-color: #dc3545;
+}
+
+.button:hover {
+    opacity: 0.8;
+}
+
+/* Form styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form input, form select, form textarea, form button {
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+form button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+form button.cancel {
+
+    background-color: #dc3545;
+}
+
+form button:hover {
+    opacity: 0.9;
+}
+
+.details-container {
+    margin-top: 20px;
+}
+
+.details-container div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+
+/* Botones en la parte inferior y centrados */
+li {
+    flex-direction: column; /* Cambiar el diseño a columnas */
+    align-items: flex-start; /* Alinear el contenido al inicio */
+}
+
+.button-group {
+    margin-top: 10px;
+    text-align: center;
+    width: 100%; /* Asegurar que los botones ocupen el ancho completo */
+}
+
+.button-group .button {
+    margin: 5px; /* Separación entre botones */
+}
+
+/* Estilos específicos para la vista de Editar Toppings */
+.edit-toppings .topping-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.edit-toppings .topping-item input {
+    flex: 1; /* Asegura que el campo de texto ocupe todo el espacio disponible */
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.edit-toppings .topping-item .button.danger {
+    padding: 6px 10px; /* Reduce el tamaño del botón */
+    font-size: 12px; /* Fuente más pequeña */
+    margin-left: 10px; /* Espaciado entre el campo y el botón */
+    background-color: #dc3545; /* Color rojo para el botón */
+    width: auto; /* Asegura que el ancho sea dinámico según el contenido */
+    max-width: 100px; /* Limita el ancho máximo */
+    text-align: center; /* Centra el texto dentro del botón */
+}
+
+
+.edit-toppings .button.success {
+    background-color: #28a745; /* Verde para "Agregar" y "Guardar Cambios" */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.edit-toppings .button.success:hover {
+    opacity: 0.9;
+}
+
+
+
+
+
+
+
+
+
+#tabla-productos td:nth-child(2) {
+    white-space: pre-wrap; /* Permite que el texto se ajuste */
+    word-wrap: break-word; /* Rompe el texto si es necesario */
+    max-width: 300px; /* Limita el ancho de la columna */
+}
+
+#tabla-productos .button {
+    width: 80px; /* Define un ancho fijo */
+    text-align: center; /* Asegura que el texto esté centrado */
+    padding: 5px; /* Ajusta el relleno interno */
+    font-size: 14px; /* Tamaño de fuente consistente */
+}
+
+#tabla-productos .button.danger {
+    width: 80px; /* Asegura que el botón "Eliminar" tenga el mismo tamaño */
+}
+#tabla-productos th, #tabla-productos td {
+    text-align: center; /* Centra el texto horizontalmente */
+    vertical-align: middle; /* Centra el texto verticalmente */
+}
+#butCancel {
+    margin-top: 15px; /* Ajusta este valor según sea necesario */
+}
+
+
+#tabla-container {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 100%; /* Ajusta según el contenido */
+    flex-direction: column; /* Mantiene los elementos en columna */
+    margin-top: 20px; /* Agrega separación superior si es necesario */
+}
+

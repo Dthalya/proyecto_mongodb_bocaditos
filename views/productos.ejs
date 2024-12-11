@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Administrar Productos</title>
+</head>
+<body>
+    <div id="tabla-container" class="container">
+        <h1>Administrar Productos</h1>
+        <table id="tabla-productos">
+            <thead>
+                <tr>
+                    <th>Sabor</th>
+                    <th>Descripción</th>
+                    <th>Stock</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% productos.forEach(producto => { %>
+                <tr>
+                    <td><%= producto.sabor %></td>
+                    <td><%= producto.descripcion %></td>
+                    <td><%= producto.stock %></td>
+                    <td>$<%= producto.precio %></td>
+                    <td>
+                        <a href="/productos/<%= producto._id %>/edit" class="button">Editar</a>
+                        <form action="/productos/<%= producto._id %>?_method=DELETE" method="POST" style="display:inline;">
+                            <button type="submit" class="button danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+        <a href="/" class="button cancel">Volver al Inicio</a>
+    </div>
+</body>
+</html>

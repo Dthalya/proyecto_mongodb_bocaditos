@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Editar Pedido</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Editar Pedido</h1>
+        <form action="/<%= pedido._id %>?_method=PUT" method="POST">
+            <input type="text" name="nombre_cliente" placeholder="Nombre del Cliente" value="<%= pedido.nombre_cliente %>" required>
+            <input type="text" name="telefono" placeholder="Teléfono" value="<%= pedido.telefono %>" required>
+            <input type="email" name="correo" placeholder="Correo Electrónico" value="<%= pedido.correo %>" required>
+            <input type="text" name="direccion" placeholder="Dirección" value="<%= pedido.direccion %>" required>
+
+            <h2>Detalles del Pedido</h2>
+            <div id="detalles-container">
+                <% pedido.detalles_pedido.forEach((detalle, index) => { %>
+                <div class="detalle">
+                    <label>Sabor:</label>
+                    <select name="detalles_pedido[<%= index %>][galleta]" required>
+                        <% sabores.forEach(sabor => { %>
+                            <option value="<%= sabor %>" <%= sabor === detalle.galleta ? 'selected' : '' %>><%= sabor %></option>
+                        <% }); %>
+                    </select>
+                    <label>Topping:</label>
+                    <select name="detalles_pedido[<%= index %>][topping]" required>
+                        <% toppings.forEach(topping => { %>
+                            <option value="<%= topping %>" <%= topping === detalle.topping ? 'selected' : '' %>><%= topping %></option>
+                        <% }); %>
+                    </select>
+                    <label>Cantidad:</label>
+                    <input type="number" name="detalles_pedido[<%= index %>][cantidad]" placeholder="Cantidad" value="<%= detalle.cantidad %>" min="1" required>
+                </div>
+                <% }) %>
+            </div>
+
+            <button type="submit">Guardar Cambios</button>
+            <a href="/" class="button cancel">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>

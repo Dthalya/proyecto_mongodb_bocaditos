@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Nuevo Pedido</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Agregar Nuevo Pedido</h1>
+        <form action="/" method="POST" onsubmit="return validarPedido()">
+            <input type="text" name="nombre_cliente" placeholder="Nombre del Cliente" required>
+            <input type="text" name="telefono" placeholder="Teléfono" required>
+            <input type="email" name="correo" placeholder="Correo Electrónico" required>
+            <input type="text" name="direccion" placeholder="Dirección" required>
+
+            <h2>Detalles del Pedido</h2>
+            <div id="detalles-container">
+                <div class="detalle">
+                    <select name="detalles_pedido[0][galleta]" required>
+                        <option value="">Selecciona una galleta</option>
+                        <!-- Galletas cargadas dinámicamente -->
+                    </select>
+                    <select name="detalles_pedido[0][topping]" id="topping-select" required>
+                        <option value="">Selecciona un topping</option>
+                    </select>
+                    <input type="number" name="detalles_pedido[0][cantidad]" placeholder="Cantidad" min="1" required>
+                </div>
+            </div>
+
+            <button type="button" onclick="agregarDetalle()">Agregar otro detalle</button>
+            <button type="submit">Guardar Pedido</button>
+            <a href="/" class="button cancel">Cancelar</a>
+        </form>
+    </div>
+
+    <script>
+        let contador = 1;
+
+        
+        async function cargarGalletas() {
+            try {
+                const response = await fetch('/sabores'); // Cambia el endpoint si es necesario
+                const galletas = await response.json();
+            
+                // Eliminar duplicados de las galletas
+                const uniqueGalletas = [...new Set(galletas)];
+            
+                // Seleccionar todos los <select> relacionados con galletas
+                document.querySelectorAll('select[name^="detalles_pedido"][name$="[galleta]"]').forEach(select => {
+                    // Vaciar las opciones existentes
+                    select.innerHTML = '<option value="">Selecciona una galleta</option>';
+                
+                    // Rellenar con galletas únicas
+                    uniqueGalletas.forEach(galleta => {
+                        const option = document.createElement('option');
+                        option.value = galleta;
+                        option.textContent = galleta;
+                        select.appendChild(option);
+                    });
+                });
+            } catch (error) {
+                console.error('Error al cargar las galletas:', error.message);
+                alert('Hubo un error al cargar las galletas.');
+            }
+        }
+        
+        async function cargarToppings() {
+            try {
+                // Llamar al endpoint
+                const response = await fetch('/sabores-toppings');
+                const data = await response.json();
+
+                // Verificar si se obtuvo correctamente la data
+                if (!data || !data.toppings) {
+                    throw new Error('No se pudieron cargar los toppings.');
+                }
+
+                // Unificar todos los toppings en una sola lista
+                const allToppings = Object.values(data.toppings).flat();
+
+                // Eliminar duplicados
+                const uniqueToppings = [...new Set(allToppings)];
+
+                // Seleccionar todos los <select> relacionados con toppings
+                document.querySelectorAll('select[name^="detalles_pedido"][name$="[topping]"]').forEach(select => {
+                    // Vaciar las opciones existentes
+                    select.innerHTML = '<option value="">Selecciona un topping</option>';
+
+                    // Rellenar con toppings únicos
+                    uniqueToppings.forEach(topping => {
+                        const option = document.createElement('option');
+                        option.value = topping;
+                        option.textContent = topping;
+                        select.appendChild(option);
+                    });
+                });
+            } catch (error) {
+                console.error('Error al cargar los toppings:', error.message);
+                alert('Hubo un error al cargar los toppings.');
+            }
+        }
+
+
+
+
+        async function agregarDetalle() {
+            const container = document.getElementById('detalles-container');
+            const nuevoDetalle = document.createElement('div');
+            nuevoDetalle.className = 'detalle';
+
+            // Crea la estructura básica del nuevo detalle
+            nuevoDetalle.innerHTML = `
+                <select name="detalles_pedido[${contador}][galleta]" required>
+                    <option value="">Selecciona una galleta</option>
+                </select>
+                <select name="detalles_pedido[${contador}][topping]" required>
+                    <option value="">Selecciona un topping</option>
+                </select>
+                <input type="number" name="detalles_pedido[${contador}][cantidad]" placeholder="Cantidad" min="1" required>
+            `;
+            container.appendChild(nuevoDetalle);
+
+            // Cargar dinámicamente las galletas
+            await cargarGalletas();
+
+            // Cargar dinámicamente los toppings
+            await cargarToppings();
+
+            contador++;
+            }
+
+
+        function validarPedido() {
+            const detalles = document.querySelectorAll('.detalle');
+            for (const detalle of detalles) {
+                const galleta = detalle.querySelector('select[name$="[galleta]"]').value;
+                const topping = detalle.querySelector('select[name$="[topping]"]').value;
+                const cantidad = detalle.querySelector('input[name$="[cantidad]"]').value;
+
+                if (!galleta || !topping || cantidad <= 0) {
+                    alert('Por favor, completa todos los campos correctamente.');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        cargarGalletas();
+
+
+
+
+    // Llamar a la función al cargar la página
+    window.addEventListener('load', cargarToppings);
+
+    </script>
+</body>
+</html>

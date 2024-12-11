@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos - Bocaditos</title>
+    <!-- Vincular el CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container index"> <!-- Clase adicional 'index' -->
+        <h1>Gestión de Pedidos</h1>
+        <div class="details-container">
+            <a href="/new" class="button">Agregar Pedido</a>
+            <a href="/productos/new" class="button">Agregar Producto</a>
+            <a href="/toppings/edit" class="button success">Editar Toppings</a>
+            <a href="/productos" class="button success">Administrar Productos</a>
+        </div>
+        <div class="details-container">
+            <ul>
+                <% pedidos.forEach(pedido => { %>
+                <li>
+                    <div>
+                        <strong>Cliente:</strong> <%= pedido.nombre_cliente %><br>
+                        <strong>Teléfono:</strong> <%= pedido.telefono %><br>
+                        <strong>Correo:</strong> <%= pedido.correo %><br>
+                        <strong>Dirección:</strong> <%= pedido.direccion %><br>
+                        <strong>Precio Total:</strong> <%= pedido.precio %><br>
+                        <strong>Detalles del Pedido:</strong>
+                        <% pedido.detalles_pedido.forEach(detalle => { %>
+                        <p>
+                            Galleta: <%= detalle.galleta %>, Topping: <%= detalle.topping %>, Cantidad: <%= detalle.cantidad %>
+                        </p>
+                        <% }) %>
+                    </div>
+                    <div class="button-group">
+                        <a href="/<%= pedido._id %>/edit" class="button">Editar</a>
+                        <form action="/<%= pedido._id %>?_method=DELETE" method="POST" style="display:inline;">
+                            <button type="submit" class="button danger">Eliminar</button>
+                        </form>
+                    </div>
+                </li>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

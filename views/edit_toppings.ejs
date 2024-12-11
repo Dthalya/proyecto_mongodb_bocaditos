@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Editar Toppings</title>
+</head>
+<body>
+    <div class="container edit-toppings">
+        <h1>Editar Toppings</h1>
+        <form action="/toppings" method="POST">
+            <div id="toppings-container">
+                <% toppings.forEach((topping, index) => { %>
+                <div class="topping-item">
+                    <input 
+                        type="text" 
+                        name="toppings[<%= index %>]" 
+                        value="<%= topping %>" 
+                        placeholder="Nombre del topping" 
+                        required>
+                    <button type="button" class="button danger" onclick="eliminarTopping(this)">Eliminar</button>
+                </div>
+                <% }); %>
+            </div>
+            <button type="button" class="button success" onclick="agregarTopping()">Agregar Nuevo Topping</button>
+            <button type="submit" class="button success">Guardar Cambios</button>
+            <a href="/" class="button cancel">Cancelar</a>
+        </form>
+    </div>
+    
+
+    <script>
+        // Agrega un nuevo campo de topping
+        function agregarTopping() {
+            const container = document.getElementById('toppings-container');
+            const toppingCount = container.children.length;
+
+            const nuevoTopping = document.createElement('div');
+            nuevoTopping.className = 'topping-item';
+            nuevoTopping.innerHTML = `
+                <input 
+                    type="text" 
+                    name="toppings[${toppingCount}]" 
+                    placeholder="Nombre del topping" 
+                    required>
+                <button type="button" class="button danger" onclick="eliminarTopping(this)">Eliminar</button>
+            `;
+            container.appendChild(nuevoTopping);
+        }
+
+        // Elimina un campo de topping
+        function eliminarTopping(button) {
+            const container = document.getElementById('toppings-container');
+            container.removeChild(button.parentElement);
+        }
+
+         async function actualizarSaboresYToppings() {
+             try {
+                 const response = await fetch('/sabores-toppings');
+                 if (!response.ok) {
+                     throw new Error('Error al obtener los sabores y toppings.');
+                 }
+             
+                 const data = await response.json();
+                 console.log('Sabores y Toppings actualizados:', data);
+             } catch (err) {
+                 console.error('Hubo un error al actualizar los datos:', err.message);
+             }
+         }
+     
+         // Llama a la función después de que la página cargue
+         window.addEventListener('load', () => {
+             if (window.location.pathname === '/toppings/edit') {
+                 actualizarSaboresYToppings();
+             }
+         });    
+
+
+
+
+    </script>
+</body>
+</html>
